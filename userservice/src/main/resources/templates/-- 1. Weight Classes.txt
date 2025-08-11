@@ -1,0 +1,123 @@
+-- 1. Weight Classes
+
+CREATE TABLE weight_classes (
+
+  id              UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  name            VARCHAR(50) NOT NULL UNIQUE,
+  min_weight_kg   REAL    NOT NULL,
+  max_weight_kg   REAL    NOT NULL
+);
+
+
+
+-- 2. Fighters
+
+CREATE TABLE fighters (
+
+  id                  UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  first_name          VARCHAR(100) NOT NULL,
+  last_name           VARCHAR(100) NOT NULL,
+  nickname            VARCHAR(100),
+  date_of_birth       DATE    NOT NULL,
+  nationality         VARCHAR(100),
+  city                VARCHAR(100),
+  gym_affiliation     VARCHAR(255),
+  team                VARCHAR(255),
+  coach_name          VARCHAR(255),
+  stance              VARCHAR(50),
+  height_cm           REAL,
+  reach_cm            REAL,
+  walkaround_weight_kg REAL,
+  weight_class_id     UUID    REFERENCES weight_classes(id),
+  profile_image_url   TEXT,
+  biography           TEXT,
+  debut_date          DATE,
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at          TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+
+
+-- 3. Events
+
+CREATE TABLE events (
+
+  id           UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  name         VARCHAR(255) NOT NULL,
+  event_date   DATE    NOT NULL,
+  venue        VARCHAR(255),
+  city         VARCHAR(100),
+  country      VARCHAR(100),
+  description  TEXT,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+
+
+-- 4. Fights (one per matchup)
+
+CREATE TABLE fights (
+
+  id               UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  event_id         UUID    NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+  weight_class_id  UUID    REFERENCES weight_classes(id),
+  card_order       INTEGER,
+  card_level       VARCHAR(50), -- e.g. 'Prelim', 'Co-Main', 'Main'
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+
+
+-- 5. Fight Participants (one row per fighter per fight)
+
+CREATE TABLE fight_participants (
+
+  fight_id      UUID    NOT NULL REFERENCES fights(id) ON DELETE CASCADE,
+  fighter_id    UUID    NOT NULL REFERENCES fighters(id),
+  is_winner     BOOLEAN,
+  result_method VARCHAR(50),  -- 'KO', 'Submission', 'Decision', 'Draw', 'NC'
+  result_round  INTEGER,
+  result_time   TIME,
+  PRIMARY KEY (fight_id, fighter_id)
+);
+
+
+
+-- 6. Career Aggregates (updated in background)
+
+CREATE TABLE fighter_statistics (
+
+  fighter_id           UUID    PRIMARY KEY REFERENCES fighters(id),
+  total_fights         INTEGER NOT NULL DEFAULT 0,
+  wins                 INTEGER NOT NULL DEFAULT 0,
+  wins_by_ko           INTEGER NOT NULL DEFAULT 0,
+  wins_by_submission   INTEGER NOT NULL DEFAULT 0,
+  wins_by_decision     INTEGER NOT NULL DEFAULT 0,
+  losses               INTEGER NOT NULL DEFAULT 0,
+  losses_by_ko         INTEGER NOT NULL DEFAULT 0,
+  losses_by_submission INTEGER NOT NULL DEFAULT 0,
+  losses_by_decision   INTEGER NOT NULL DEFAULT 0,
+  draws                INTEGER NOT NULL DEFAULT 0,
+  no_contests          INTEGER NOT NULL DEFAULT 0,
+  strike_accuracy      REAL,
+  takedown_accuracy    REAL,
+  last_updated         TIMESTAMPTZ NOT NULL DEFAULT now();
+);
+
+
+
+-- 7. Dynamic Rankings
+
+CREATE TABLE rankings (
+
+  id               UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  fighter_id       UUID    NOT NULL REFERENCES fighters(id),
+  weight_class_id  UUID    NOT NULL REFERENCES weight_classes(id),
+  points           INTEGER NOT NULL DEFAULT 0,
+  win_percentage   REAL,
+  rank_position    INTEGER,
+  last_updated     TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (fighter_id, weight_class_id)
+);
