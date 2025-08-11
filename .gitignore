@@ -1,11 +1,42 @@
-HELP.md
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Maven
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-/src/main/resources/application.yml
 
-### STS ###
+# IDE
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
 .apt_generated
 .classpath
 .factorypath
@@ -14,23 +45,31 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# OS
+.DS_Store
+Thumbs.db
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Spring Boot
+*.pid
+spring-shell.log
 
-### VS Code ###
-.vscode/
+# Application properties (if containing sensitive data)
+**/src/main/resources/application-local.yml
+**/src/main/resources/application-local.properties
 
+userservice/src/resources/application.yml
+activityservice/src/resources/application.yml
 
+# Test results
+test-output/
+*.tgz
+
+# Node (if using any frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.sqlite
