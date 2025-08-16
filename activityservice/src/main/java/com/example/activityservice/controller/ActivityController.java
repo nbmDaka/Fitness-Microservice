@@ -4,10 +4,9 @@ import com.example.activityservice.dto.ActivityRequest;
 import com.example.activityservice.dto.ActivityResponse;
 import com.example.activityservice.service.ActivityService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/activities")
@@ -22,5 +21,10 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<ActivityResponse> trackActivity(@RequestBody ActivityRequest request) {
         return ResponseEntity.ok(activityService.trackActivity(request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ActivityResponse>> getUserActivities(@RequestHeader("X-User-ID") String userId) {
+        return ResponseEntity.ok(activityService.getUserActivities(userId));
     }
 }

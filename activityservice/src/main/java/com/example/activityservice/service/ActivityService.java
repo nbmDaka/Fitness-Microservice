@@ -7,6 +7,8 @@ import com.example.activityservice.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ActivityService {
@@ -42,6 +44,13 @@ public class ActivityService {
 
 
         return response;
+    }
+
+    public List<ActivityResponse> getUserActivities(String userId) {
+        List<Activity> activities = activityRepository.findByUserId(userId);
+        return activities.stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 }
 
