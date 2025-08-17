@@ -1,4 +1,4 @@
-package com.example.Fitness_userservice.model;
+package com.example.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

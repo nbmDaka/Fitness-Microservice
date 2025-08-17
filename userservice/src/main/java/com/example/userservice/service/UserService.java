@@ -1,9 +1,9 @@
-package com.example.Fitness_userservice.service;
+package com.example.userservice.service;
 
-import com.example.Fitness_userservice.dto.RegisterRequest;
-import com.example.Fitness_userservice.dto.UserResponse;
-import com.example.Fitness_userservice.model.User;
-import com.example.Fitness_userservice.repository.UserRepository;
+import com.example.userservice.dto.RegisterRequest;
+import com.example.userservice.dto.UserResponse;
+import com.example.userservice.model.User;
+import com.example.userservice.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,4 +54,7 @@ public class UserService {
     }
 
 
+    public Boolean existByUserId(String userId) {
+        return userRepository.existsById(userId);
+    }
 }

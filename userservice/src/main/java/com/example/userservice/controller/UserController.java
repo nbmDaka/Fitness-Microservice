@@ -1,8 +1,8 @@
-package com.example.Fitness_userservice.controller;
+package com.example.userservice.controller;
 
-import com.example.Fitness_userservice.dto.RegisterRequest;
-import com.example.Fitness_userservice.dto.UserResponse;
-import com.example.Fitness_userservice.service.UserService;
+import com.example.userservice.dto.RegisterRequest;
+import com.example.userservice.dto.UserResponse;
+import com.example.userservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +22,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(userService.register(request));
+    }
+
+    @GetMapping("/{userId}/validate")
+    public ResponseEntity<Boolean> validateUser(@PathVariable String userId){
+        return ResponseEntity.ok(userService.existByUserId(userId));
     }
 }

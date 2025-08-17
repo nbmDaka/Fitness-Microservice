@@ -1,6 +1,6 @@
-package com.example.Fitness_userservice.repository;
+package com.example.userservice.repository;
 
-import com.example.Fitness_userservice.model.User;
+import com.example.userservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
