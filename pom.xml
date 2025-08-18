@@ -28,6 +28,7 @@
         <module>userservice</module>
         <module>activityservice</module>
         <module>eureka</module>
+        <module>aiservice</module>
     </modules>
     
     <dependencyManagement>
