@@ -1,6 +1,5 @@
 package com.fitness.aiservice.model;
 
-import jdk.jfr.DataAmount;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
