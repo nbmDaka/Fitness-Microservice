@@ -21,5 +21,7 @@ public class RecommendationService {
     public Recommendation getActivityRecommendation(String activityId) {
         return recommendationRepository.findByActivityId(activityId)
                 .orElseThrow(() -> new RuntimeException("Recommendation not found for activity ID: " + activityId));
+
+        // return recommendationRepository.findByActivityId(activityId).orElse(null);
     }
 }
