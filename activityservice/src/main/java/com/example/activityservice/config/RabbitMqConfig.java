@@ -41,6 +41,8 @@ public class RabbitMqConfig {
                 .with(routingKey);
     }
 
+    // need to convert the message to json before sending it to the queue
+
     @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
